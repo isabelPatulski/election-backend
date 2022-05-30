@@ -36,7 +36,7 @@ class CyclistServiceTest {
     }
 
 
-    @BeforeEach
+    /*@BeforeEach
     public void setupService() {
         cyclistService = new CyclistService(cyclistRepository);
     }
@@ -71,6 +71,6 @@ class CyclistServiceTest {
 
     //@Test
     void deleteCar() {
-    }
+    }*/
 }
 

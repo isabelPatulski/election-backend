@@ -16,7 +16,8 @@ public class CyclistService {
     CyclistRepository cyclistRepository;
     TeamRepository teamRepository;
 
-    public CyclistService () {}
+    public CyclistService() {
+    }
 
     public CyclistService(CyclistRepository cyclistRepository) {
         this.cyclistRepository = cyclistRepository;
@@ -27,13 +28,20 @@ public class CyclistService {
         this.teamRepository = teamRepository;
     }
 
-    public List<CyclistResponse> getCyclists(){
-        List<Cyclist> cyclists =  cyclistRepository.findAll();
-        return CyclistResponse.getCyclistFromEntities(cyclists);
-
+    public List<CyclistResponse> getAllCyclist(String name){
+        List <Cyclist> cyclists;
+        if(name != null){
+            cyclists = cyclistRepository.findCyclistByTeam_Name(name);
+        } else {
+            cyclists = cyclistRepository.findAll();
+        }
+        //return candidates.stream().map(CandidateResponse::new).collect(Collectors.toList());
+        return cyclists.stream().map((cyclist) -> new CyclistResponse(cyclist)).collect(Collectors.toList());
     }
 
-    public CyclistResponse getCyclist(int id,boolean all) throws Exception {
+}
+
+    /*public CyclistResponse getCyclist(int id,boolean all) throws Exception {
         Cyclist cyclist = cyclistRepository.findById(id).orElseThrow(()->new Client4xxException("No cyclist with this id exists"));
         return new CyclistResponse(cyclist,false);
     }
@@ -54,7 +62,7 @@ public class CyclistService {
 
 }
 
-/* public List<CyclistResponse> getCyclists(String team) {
+ public List<CyclistResponse> getCyclists(String team) {
         List<Cyclist> cyclists;
         if(team != null){
             cyclists = cyclistRepository.findCyclistByTeam_Name(team);

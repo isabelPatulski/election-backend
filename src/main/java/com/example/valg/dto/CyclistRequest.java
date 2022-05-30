@@ -12,4 +12,8 @@ import lombok.Setter;
 public class CyclistRequest {
     String name;
     Team team;
+
+    public CyclistRequest(String name) {
+        this.name = name;
+    }
 }
