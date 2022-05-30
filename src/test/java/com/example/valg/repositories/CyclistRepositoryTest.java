@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,44 +16,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class CyclistRepositoryTest {
 
     @Autowired
-    TeamRepository teamRepository;
-
-    @Autowired
     CyclistRepository cyclistRepository;
 
-    /*@BeforeEach
+    @Autowired
+    TeamRepository teamRepository;
+
+    int cyclist1ID, cyclist2ID, team1ID, team2ID;
+    String team1Name, team2Name;
+
+
+    @BeforeEach
     void setUp() {
-        teamRepository.deleteAll();
         cyclistRepository.deleteAll();
-        Team team1 = new Team("Team Easy On");
-        Cyclist cyclist1 = new Cyclist("Bobby Olsen", team1);
-        Cyclist cyclist2 = new Cyclist("Pim de Keysergracht", team1);
+        teamRepository.deleteAll();
+        Team team1 = new Team("Vinderne");
+        Team team2 = new Team("Taberne");
 
-        cyclistRepository.save(cyclist1);
-        cyclistRepository.save(cyclist2);
+        Cyclist cyclist1 = cyclistRepository.save(new Cyclist("Anja Nielsen"));
+        Cyclist cyclist2 = cyclistRepository.save(new Cyclist("Flemming Nielse"));
 
-        teamRepository.save(team1);
+        cyclist1ID = cyclist1.getId();
+        cyclist2ID = cyclist2.getId();
+        team1Name = team1.getTeamName();
+        team2Name = team2.getTeamName();
+
+        team1.addCyclist(Set.of(cyclist1));
+        team2.addCyclist(Set.of(cyclist2));
+
+        teamRepository.saveAll(List.of(team1, team2));
     }
 
     @Test
-    public void getCyclists(){
-        List<Cyclist> cyclists = cyclistRepository.findAll();
-        assertEquals(2,cyclists.size());
+    public void findCyclistByTeam_TeamName() {
+        List<Cyclist> allCyclistInTeam = cyclistRepository.findCyclistByTeam_TeamName(team1Name);
+        assertEquals(1,allCyclistInTeam.size());
     }
-    @Test
-    public void getCyclistsFromTeamOK(){
-        List<Cyclist> cyclists = cyclistRepository.findCyclistByTeam_Name("Team Easy On");
-        assertEquals(2,cyclists.size());
-    }
-    @Test
-    public void getCyclistsFromTeamNotOK(){
-        List<Cyclist> cyclists = cyclistRepository.findCyclistByTeam_Name("Team ensom");
-        assertEquals(0,cyclists.size());
-    }
-    @Test
-    public void testAddCyclist(){
-        Cyclist cyclistNew = cyclistRepository.save(new Cyclist("Bobby Olsen"));
-        assertNotEquals(0,cyclistNew.getId());
-        assertEquals(3,cyclistRepository.count());
-    }*/
+
 }
