@@ -31,15 +31,9 @@ public class CyclistService {
 
     //Finder alle cyklister medmindre der er blevet givet en "teamName" attribut med - så er det kun dem fra
     // det hold der bliver vist
-    public List<CyclistResponse> getAllCyclist(String teamName) {
-        List<Cyclist> cyclists;
-        if (teamName != null) {
-            cyclists = cyclistRepository.findCyclistByTeam_TeamName(teamName);
-        } else {
-            cyclists = cyclistRepository.findAll();
-        }
-        //return candidates.stream().map(CandidateResponse::new).collect(Collectors.toList());
-        return cyclists.stream().map((cyclist) -> new CyclistResponse(cyclist)).collect(Collectors.toList());
+    public List<CyclistResponse> getCyclists(){
+        List<Cyclist> cyclists =  cyclistRepository.findAll();
+        return CyclistResponse.getCyclistsFromEntities(cyclists);
     }
 
 

@@ -28,4 +28,8 @@ public class CyclistResponse {
         this.id= cyclist.getId();
         }
 
+    public static List<CyclistResponse> getCyclistsFromEntities(List<Cyclist> cyclists){
+        return cyclists.stream().map(movie-> new CyclistResponse(movie)).collect(Collectors.toList());
+    }
+
 }
