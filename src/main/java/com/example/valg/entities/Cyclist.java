@@ -1,6 +1,7 @@
 package com.example.valg.entities;
 
 
+import com.example.valg.dto.CyclistRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Candidate {
+public class Cyclist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +21,22 @@ public class Candidate {
     private String name;
 
     @ManyToOne()
-    private Party party;
+    private Team team;
 
-    public Candidate(String name) {
+    public Cyclist(String name) {
         this.name = name;
     }
 
+    public Cyclist(CyclistRequest body) {
+        this.name = body.getName();
+        this.team = body.getTeam();
+    }
+
+
+
+    public Cyclist(String name, Team team) {
+        this.name = name;
+        this.team = team;
+
+    }
 }
