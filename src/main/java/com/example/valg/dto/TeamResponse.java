@@ -10,10 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TeamResponse {
 
-    private String name;
+    int id;
+    String teamName;
 
     public TeamResponse(Team body) {
-        this.name = body.getName();
+        this.teamName = body.getTeamName();
+        this.id = body.getId();
     }
 
 }

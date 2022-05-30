@@ -20,7 +20,7 @@ class CyclistRepositoryTest {
     @Autowired
     CyclistRepository cyclistRepository;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp() {
         teamRepository.deleteAll();
         cyclistRepository.deleteAll();
@@ -54,5 +54,5 @@ class CyclistRepositoryTest {
         Cyclist cyclistNew = cyclistRepository.save(new Cyclist("Bobby Olsen"));
         assertNotEquals(0,cyclistNew.getId());
         assertEquals(3,cyclistRepository.count());
-    }
+    }*/
 }

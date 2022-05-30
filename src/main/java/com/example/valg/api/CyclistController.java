@@ -18,15 +18,36 @@ import java.util.stream.Collectors;
 public class CyclistController {
 
     CyclistService cyclistService;
-    CyclistRepository cyclistRepository;
 
     public CyclistController(CyclistService cyclistService) {
         this.cyclistService = cyclistService;
     }
 
     @GetMapping
-    public List<CyclistResponse> getAllCyclist(@RequestParam(value = "team", required = false) String name) {
-        return cyclistService.getAllCyclist(name);
+    public List<CyclistResponse> getAllCyclists(@RequestParam(value = "team", required = false) String teamName) {
+        return cyclistService.getAllCyclist(teamName);
+    }
+
+    @GetMapping("/{id}")
+    public CyclistResponse getCyclist(@PathVariable int id) throws Exception {
+        return cyclistService.getCyclist(id);
+    }
+
+    //Adds a new racer to DB
+    @PostMapping("/{id}")
+    public CyclistResponse addCyclist(@RequestBody CyclistRequest body, @PathVariable int id) throws Exception {
+        return cyclistService.addCyclist(body, id);
+    }
+
+    @PutMapping("/{id}")
+    public CyclistResponse editCyclist(@RequestBody CyclistRequest body, @PathVariable int id) {
+        return cyclistService.editCyclist(body, id);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteCyclist(@PathVariable int id) {
+        cyclistService.deleteCyclist(id);
     }
 }
 

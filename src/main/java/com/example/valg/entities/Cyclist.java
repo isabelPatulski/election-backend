@@ -18,25 +18,16 @@ public class Cyclist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String fullName;
 
     @ManyToOne()
     private Team team;
 
-    public Cyclist(String name) {
-        this.name = name;
+    public Cyclist(String fullName) {
+        this.fullName = fullName;
     }
 
     public Cyclist(CyclistRequest body) {
-        this.name = body.getName();
-        this.team = body.getTeam();
-    }
-
-
-
-    public Cyclist(String name, Team team) {
-        this.name = name;
-        this.team = team;
-
+        this.fullName = body.getFullName();
     }
 }

@@ -3,6 +3,7 @@ package com.example.valg.service;
 import com.example.valg.dto.CyclistRequest;
 import com.example.valg.dto.CyclistResponse;
 import com.example.valg.entities.Cyclist;
+import com.example.valg.entities.Team;
 import com.example.valg.repositories.CyclistRepository;
 import com.example.valg.repositories.TeamRepository;
 import error.Client4xxException;
@@ -28,10 +29,12 @@ public class CyclistService {
         this.teamRepository = teamRepository;
     }
 
-    public List<CyclistResponse> getAllCyclist(String name){
-        List <Cyclist> cyclists;
-        if(name != null){
-            cyclists = cyclistRepository.findCyclistByTeam_Name(name);
+    //Finder alle cyklister medmindre der er blevet givet en "teamName" attribut med - så er det kun dem fra
+    // det hold der bliver vist
+    public List<CyclistResponse> getAllCyclist(String teamName) {
+        List<Cyclist> cyclists;
+        if (teamName != null) {
+            cyclists = cyclistRepository.findCyclistByTeam_TeamName(teamName);
         } else {
             cyclists = cyclistRepository.findAll();
         }
@@ -39,37 +42,33 @@ public class CyclistService {
         return cyclists.stream().map((cyclist) -> new CyclistResponse(cyclist)).collect(Collectors.toList());
     }
 
+
+    //Finder en cyklist fra et givent id
+    public CyclistResponse getCyclist(int id) throws Exception {
+        Cyclist cyclist = cyclistRepository.findById(id).orElseThrow(() -> new Client4xxException("No cyclist with that id could be found"));
+        return new CyclistResponse(cyclist);
+    }
+
+    //Tilføjer cyklist
+    public CyclistResponse addCyclist(CyclistRequest body, int teamId) throws Exception {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new Client4xxException("No cyclist with that id could be found"));
+        Cyclist newCyclist = new Cyclist(body);
+        team.addCyclist(newCyclist);
+        teamRepository.save(team);
+        return new CyclistResponse(newCyclist);
+    }
+
+    //Redigere cyklist
+    public CyclistResponse editCyclist(CyclistRequest cyclistRequest, int id) {
+        Cyclist cyclistToEdit = cyclistRepository.findById(id).orElseThrow(() -> new Client4xxException("No cyclist with that id could be found"));
+        cyclistToEdit.setFullName(cyclistRequest.getFullName());
+        return new CyclistResponse(cyclistRepository.save(cyclistToEdit));
+    }
+
+
+    //Sletter en cyklist
+    public void deleteCyclist(int id) {
+        cyclistRepository.deleteById(id);
+    }
+
 }
-
-    /*public CyclistResponse getCyclist(int id,boolean all) throws Exception {
-        Cyclist cyclist = cyclistRepository.findById(id).orElseThrow(()->new Client4xxException("No cyclist with this id exists"));
-        return new CyclistResponse(cyclist,false);
-    }
-
-    public CyclistResponse addCyclist(CyclistRequest body){
-        Cyclist cyclistNew = cyclistRepository.save(new Cyclist(body.getName(), body.getTeam()));
-        return new CyclistResponse(cyclistNew);
-
-    }
-
-    public CyclistResponse editCyclist(CyclistRequest cyclistToEdit, int cyclistId){
-        Cyclist cyclist = cyclistRepository.findById(cyclistId).orElseThrow(()-> new Client4xxException("No cyclist with provided ID found"));
-        cyclist.setTeam(cyclistToEdit.getTeam());
-        cyclist.setName(cyclistToEdit.getName());
-        CyclistResponse candidateResponseEdit = new CyclistResponse(cyclistRepository.save(cyclist));
-        return candidateResponseEdit;
-    }
-
-}
-
- public List<CyclistResponse> getCyclists(String team) {
-        List<Cyclist> cyclists;
-        if(team != null){
-            cyclists = cyclistRepository.findCyclistByTeam_Name(team);
-        } else {
-            cyclists = cyclistRepository.findAll();
-        }
-        //return candidates.stream().map(CandidateResponse::new).collect(Collectors.toList());
-        return cyclists.stream().map((cyclist)->new CyclistResponse(cyclist)).collect(Collectors.toList());
-    }
-*/

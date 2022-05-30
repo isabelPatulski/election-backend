@@ -8,12 +8,11 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CyclistRequest {
-    String name;
-    Team team;
+    String fullName;
 
-    public CyclistRequest(String name) {
-        this.name = name;
+
+    public CyclistRequest(String fullName) {
+        this.fullName = fullName;
     }
 }

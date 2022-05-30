@@ -13,17 +13,16 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Team {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
+    private String teamName;
 
-    @OneToMany(mappedBy = "team", cascade = {CascadeType.PERSIST ,CascadeType.MERGE})
+    @OneToMany(mappedBy = "team", cascade ={ CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Cyclist> cyclists = new HashSet<>();
 
-    public Team(String name) {
-        this.name = name;
+    public Team(String teamName) {
+        this.teamName = teamName;
     }
 
     public void addCyclist(Cyclist cyclist) {

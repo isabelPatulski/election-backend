@@ -24,35 +24,30 @@ public class MakeTestData implements ApplicationRunner {
         this.teamRepository = teamRepository;
     }
 
-    public void makeTeamsWithCyclist(){
-        Team team1 = new Team("Team Easy on");
-        Team team2 = new Team("Cofidis");
-        Team team3 = new Team("Israel Premier Tech");
-        Team team4 = new Team("Movistar Team");
+    public void makeCyclistsAndTeams(){
+        Team team1 = new Team("Team easy on");
+        Team team2 = new Team("Visma");
+        Team team3 = new Team("Lotto Soudal");
 
-        Cyclist cyclist1 = new Cyclist("Bobby Olsen");
-        Cyclist cyclist2 = new Cyclist("Pim de Keysergracht");
-        Cyclist cyclist3 = new Cyclist("Benjamin Thomas");
-        Cyclist cyclist4 = new Cyclist("Ion Izagirre");
-        Cyclist cyclist5 = new Cyclist("Rudy Barbier");
-        Cyclist cyclist6 = new Cyclist("Jorge Arcas");
-        Cyclist cyclist7 = new Cyclist("Alex Aranburu ");
-        Cyclist cyclist8 = new Cyclist("Mathias Norsgaard");
+        Cyclist cyclist1 = new Cyclist("Bobby Nielsen");
+        Cyclist cyclist2 = new Cyclist("Leonardo Dicaprio");
+        Cyclist cyclist3 = new Cyclist("Freddy Nielsen");
+        Cyclist cyclist4 = new Cyclist("Anja Flemming");
+        Cyclist cyclist5 = new Cyclist("Isabel Patulski Nielsen");
+        Cyclist cyclist6 = new Cyclist("Thor");
 
-        team1.addCyclist(Set.of(cyclist1,cyclist2));
-        team2.addCyclist(Set.of(cyclist3,cyclist4));
-        team3.addCyclist(Set.of(cyclist5));
-        team4.addCyclist(Set.of(cyclist6,cyclist7, cyclist8));
 
-        teamRepository.saveAll(List.of(team1, team2, team3, team4));
+        team1.addCyclist(Set.of(cyclist1, cyclist2, cyclist3));
+        team2.addCyclist(Set.of(cyclist4, cyclist5));
+        team3.addCyclist(Set.of(cyclist6));
 
+        teamRepository.saveAll(List.of(team1, team2, team3));
     }
-
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        makeCyclistsAndTeams();
 
-        makeTeamsWithCyclist();
     }
-}
 
+}

@@ -15,24 +15,17 @@ import java.util.stream.Collectors;
 public class CyclistResponse {
 
     private int id;
-    private String name;
-    private Team team;
+    private String fullName;
+
 
     public CyclistResponse(Cyclist cyclist) {
         this.id = cyclist.getId();
-        this.name = cyclist.getName();
-        this.team = cyclist.getTeam();
+        this.fullName = cyclist.getFullName();
     }
 
     public CyclistResponse(Cyclist cyclist, boolean includeAll) {
-        this.name = cyclist.getName();
-        this.team = cyclist.getTeam();
+        this.fullName = cyclist.getFullName();
         this.id= cyclist.getId();
         }
-
-    public static List<CyclistResponse> getCyclistFromEntities(List<Cyclist> cyclists){
-        return cyclists.stream().map(cyclist-> new CyclistResponse(cyclist,false)).collect(Collectors.toList());
-
-    }
 
 }
